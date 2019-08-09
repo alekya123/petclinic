@@ -14,13 +14,11 @@ node {
     def appImg = docker.build("nicolas-deloof/petclinic")
 
     stage 'Push to GCR'
-    steps{
        sh 'bx login -a https://api.ng.bluemix.net -apikey SB8RT-E15jVemTpuOjg91p6rwUnkfJyofi_e4vK_7y6e -o ADMNextGen -s devtest' +
        'bx cr login'
        'docker tag nicolas-deloof/petclinic registry.ng.bluemix.net/liberty_test/petclinic' +
        'docker push registry.ng.bluemix.net/liberty_test/petclinic'
-    } 
-    }
+   
 
     stage 'Run app on Kubernetes'
     withKubernetes( serverUrl: 'https://146.148.36.159', credentialsId: 'kubeadmin' ) {
