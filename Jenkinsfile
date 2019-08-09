@@ -1,4 +1,4 @@
-node('DockerIO') 
+node('DockerIO') {
     stage 'Checkout'
     git "https://github.com/kohsuke/petclinic.git"
 
@@ -24,3 +24,4 @@ node('DockerIO')
     }
 
     // ... Do some tests on deployed application web UI
+}
