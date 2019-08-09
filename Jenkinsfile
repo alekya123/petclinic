@@ -1,5 +1,9 @@
-node {
-    
+agent {
+        node {
+            label 'DockerIO'
+        }
+    }
+stages{
     stage 'Checkout'
     git "https://github.com/kohsuke/petclinic.git"
 
@@ -28,4 +32,5 @@ node {
 
     // ... Do some tests on deployed application web UI
 
+}
 }
