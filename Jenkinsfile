@@ -26,5 +26,3 @@ node {
     }
 
     // ... Do some tests on deployed application web UI
-
-}
