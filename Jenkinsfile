@@ -12,10 +12,13 @@ node('DockerIO') {
     def appImg = docker.build("nicolas-deloof/petclinic")
 
     stage 'Push to GCR'
-       sh ''' bx login -a https://api.ng.bluemix.net -apikey SB8RT-E15jVemTpuOjg91p6rwUnkfJyofi_e4vK_7y6e
-       bx cr login
-       docker tag nicolas-deloof/petclinic registry.ng.bluemix.net/liberty_test/petclinic
-       docker push registry.ng.bluemix.net/liberty_test/petclinic '''
+       sh ''' ibmcloud login --apikey pukDLNLc1Csk5RXHJs1WpOJKYE-V0aK6U2lpvv4PLjB6
+        ibmcloud cr login
+        docker tag petclinic us.icr.io/liberty_test/petclinic:latest
+        docker push us.icr.io/liberty_test/petclinic:latest
+        ibmcloud cs init
+        `ibmcloud cs cluster-config jenkinstest | grep export`
+        kubectl apply -f '''
    
 
     stage 'Run app on Kubernetes'
