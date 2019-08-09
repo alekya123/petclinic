@@ -18,7 +18,7 @@ node('DockerIO') {
         docker push us.icr.io/liberty_test/petclinic:latest &&
         ibmcloud cs init &&
         `ibmcloud cs cluster-config jenkinstest | grep export` &&
-        kubectl apply -f deploy.yml '''
+        /opt/kubectl apply -f deploy.yml '''
    
 
     stage 'Run app on Kubernetes'
