@@ -31,7 +31,7 @@ node ('DockerIO') {
 			    componentName: 'Multi-Cloud',
 		    delivery: [
                     	    $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Push',
-                   	    pushVersion: "${BUILD_NUMBER}",
+                   	    pushVersion: "${BUILD_NUMBER}_pet",
 			    baseDir: "${env.WORKSPACE}",
 			    fileIncludePatterns: 'tag'
                              ]
@@ -41,7 +41,7 @@ node ('DockerIO') {
                  deployApp: 'Multicloud-Petclinc',
                  deployEnv: 'IKS',
                  deployProc: "deploy-Multi-Cloud",
-                 deployVersions: "Multi-Cloud:${BUILD_NUMBER}",
+                 deployVersions: "Multi-Cloud:${BUILD_NUMBER}_pet",
                  deployOnlyChanged: false
                          ]
                            ])
