@@ -1,6 +1,8 @@
-node {
+agent {
+        node {
             label 'DockerIO'
         }
+    }
     stage 'Checkout'
     git "https://github.com/kohsuke/petclinic.git"
 
