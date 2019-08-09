@@ -23,7 +23,6 @@ node('DockerIO') {
    
 
     stage ('UCD Deploy') {
-   		steps {
 	           script {		
 		    echo "started deploying in UCD in ${env.WORKSPACE}"
 		    //echo '${COMPONENT_NAME}'
@@ -52,7 +51,7 @@ node('DockerIO') {
                            ])
 			   }
 	}
-	}
+	
 
     // ... Do some tests on deployed application web UI
 }
