@@ -18,6 +18,7 @@ node('DockerIO') {
         docker push us.icr.io/liberty_test/petclinic:latest &&
         ibmcloud cs init &&
         `ibmcloud cs cluster-config jenkinstest | grep export` &&
+          ls -altr &&
         /opt/kubectl apply -f iksdeploy.yml '''
    
 
