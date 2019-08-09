@@ -9,7 +9,7 @@ node('DockerIO') {
     }
 
     stage 'Build application Docker image'
-    def appImg = docker.build("nicolas-deloof/petclinic")
+    def appImg = docker.build("petclinic")
 
     stage 'Push to GCR'
        sh ''' ibmcloud login --apikey pukDLNLc1Csk5RXHJs1WpOJKYE-V0aK6U2lpvv4PLjB6
