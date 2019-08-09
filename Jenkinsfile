@@ -33,7 +33,7 @@ node ('DockerIO') {
                     	    $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Push',
                    	    pushVersion: "${BUILD_NUMBER}_pet",
 			    baseDir: "${env.WORKSPACE}",
-			    fileIncludePatterns: 'tag'
+			    fileIncludePatterns: 'iksdeploy.yml'
                              ]
                     ],
                     deploy: [
