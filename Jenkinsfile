@@ -13,13 +13,17 @@ node {
     def appImg = docker.build("nicolas-deloof/petclinic")
 
     stage 'Push to GCR'
-    docker.withRegistry('https://gcr.io', 'gcr:nicolas-deloof') {
-        appImg.push();
+    steps{
+       sh 'bx login -a https://api.ng.bluemix.net -apikey SB8RT-E15jVemTpuOjg91p6rwUnkfJyofi_e4vK_7y6e -o ADMNextGen -s devtest' +
+       'bx cr login'
+       'docker tag nicolas-deloof/petclinic registry.ng.bluemix.net/liberty_test/petclinic' +
+       'docker push registry.ng.bluemix.net/liberty_test/petclinic'
+    } 
     }
 
     stage 'Run app on Kubernetes'
     withKubernetes( serverUrl: 'https://146.148.36.159', credentialsId: 'kubeadmin' ) {
-          sh 'kubectl run petclinic --image=gcr.io/nicolas-deloof/petclinic --port=8080'
+          sh 'kubectl run petclinic --image=registry.ng.bluemix.net/liberty_test/petclinic --port=8080'
     }
 
     // ... Do some tests on deployed application web UI
