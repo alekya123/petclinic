@@ -1,8 +1,7 @@
 node 'DockerIO' {
     environment {
     def COMPONENT_NAME = "Multi-Cloud"
-	def COMPONENT_NM=sh(returnStdout: true, script: 'echo $ARTIFACTID|cut -f2,3,4,5,6 -d"-"').trim()
-}
+    }
     stage 'Checkout'
     git "https://github.com/alekya123/petclinic.git"
 
