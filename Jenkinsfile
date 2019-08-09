@@ -1,7 +1,4 @@
 node 'DockerIO' {
-    environment {
-    def COMPONENT_NAME = "Multi-Cloud"
-    }
     stage 'Checkout'
     git "https://github.com/alekya123/petclinic.git"
 
@@ -25,13 +22,13 @@ node 'DockerIO' {
 	           script {		
 		    echo "started deploying in UCD in ${env.WORKSPACE}"
 		    //echo '${COMPONENT_NAME}'
-		    echo "COMPONENT_NAME = ${COMPONENT_NAME}"
+		    echo "COMPONENT_NAME = 'Multi-Cloud'
 		    sh 'echo "${BUILD_NUMBER}">tag ; cat tag'
 		    step([  $class: 'UCDeployPublisher',
                     siteName: 'IBM GBS UCD',
                     component: [
                     $class: 'com.urbancode.jenkins.plugins.ucdeploy.VersionHelper$VersionBlock',
-			    componentName: "${COMPONENT_NAME}",
+			    componentName: 'Multi-Cloud',
 		    delivery: [
                     	    $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Push',
                    	    pushVersion: "${BUILD_NUMBER}",
@@ -43,8 +40,8 @@ node 'DockerIO' {
                  $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeployHelper$DeployBlock',
                  deployApp: 'Multicloud-Petclinc',
                  deployEnv: 'IKS',
-                 deployProc: "deploy-${COMPONENT_NAME}",
-                 deployVersions: "${COMPONENT_NAME}:${BUILD_NUMBER}",
+                 deployProc: "deploy-Multi-Cloud",
+                 deployVersions: "Multi-Cloud:${BUILD_NUMBER}",
                  deployOnlyChanged: false
                          ]
                            ])
