@@ -12,12 +12,12 @@ node('DockerIO') {
     def appImg = docker.build("petclinic")
 
     stage 'Push to GCR'
-       sh ''' bx login --apikey pukDLNLc1Csk5RXHJs1WpOJKYE-V0aK6U2lpvv4PLjB6 &&
-        bx cr login &&
+       sh ''' ibmcloud login --apikey pukDLNLc1Csk5RXHJs1WpOJKYE-V0aK6U2lpvv4PLjB6 &&
+        ibmcloud cr login &&
         docker tag petclinic us.icr.io/liberty_test/petclinic:latest &&
         docker push us.icr.io/liberty_test/petclinic:latest &&
-        bx cs init &&
-        `bx cs cluster-config jenkinstest | grep export` &&
+        ibmcloud cs init &&
+        `ibmcloud cs cluster-config jenkinstest | grep export` &&
         kubectl apply -f deploy.yml '''
    
 
