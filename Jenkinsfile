@@ -22,7 +22,7 @@ node 'DockerIO' {
 	           script {		
 		    echo "started deploying in UCD in ${env.WORKSPACE}"
 		    //echo '${COMPONENT_NAME}'
-		    echo "COMPONENT_NAME = 'Multi-Cloud'
+		    //echo "COMPONENT_NAME = 'Multi-Cloud'
 		    sh 'echo "${BUILD_NUMBER}">tag ; cat tag'
 		    step([  $class: 'UCDeployPublisher',
                     siteName: 'IBM GBS UCD',
