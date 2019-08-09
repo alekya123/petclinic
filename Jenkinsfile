@@ -1,4 +1,8 @@
 node('DockerIO') {
+    environment {
+    def COMPONENT_NAME = "Multi-Cloud"
+	def COMPONENT_NM=sh(returnStdout: true, script: 'echo $ARTIFACTID|cut -f2,3,4,5,6 -d"-"').trim()
+}
     stage 'Checkout'
     git "https://github.com/alekya123/petclinic.git"
 
@@ -15,17 +19,40 @@ node('DockerIO') {
        sh ''' ibmcloud login --apikey pukDLNLc1Csk5RXHJs1WpOJKYE-V0aK6U2lpvv4PLjB6 &&
         ibmcloud cr login &&
         docker tag petclinic us.icr.io/liberty_test/petclinic:latest &&
-        docker push us.icr.io/liberty_test/petclinic:latest &&
-        ibmcloud cs init &&
-        `ibmcloud cs cluster-config jenkinstest | grep export` &&
-          ls -altr &&
-        /opt/kubectl apply -f iksdeploy.yml '''
+        docker push us.icr.io/liberty_test/petclinic:latest '''
    
 
-    stage 'Run app on Kubernetes'
-    withKubernetes( serverUrl: 'https://146.148.36.159', credentialsId: 'kubeadmin' ) {
-          sh 'kubectl run petclinic --image=registry.ng.bluemix.net/liberty_test/petclinic --port=8080'
-    }
+    stage ('UCD Deploy') {
+   		steps {
+	           script {		
+		    echo "started deploying in UCD in ${env.WORKSPACE}"
+		    //echo '${COMPONENT_NAME}'
+		    echo "COMPONENT_NAME = ${COMPONENT_NAME}"
+		    sh 'echo "${BUILD_NUMBER}">tag ; cat tag'
+		    step([  $class: 'UCDeployPublisher',
+                    siteName: 'IBM GBS UCD',
+                    component: [
+                    $class: 'com.urbancode.jenkins.plugins.ucdeploy.VersionHelper$VersionBlock',
+			    componentName: "${COMPONENT_NAME}",
+		    delivery: [
+                    	    $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeliveryHelper$Push',
+                   	    pushVersion: "${BUILD_NUMBER}",
+			    baseDir: "${env.WORKSPACE}",
+			    fileIncludePatterns: 'tag'
+                             ]
+                    ],
+                    deploy: [
+                 $class: 'com.urbancode.jenkins.plugins.ucdeploy.DeployHelper$DeployBlock',
+                 deployApp: 'Multicloud-Petclinc',
+                 deployEnv: 'IKS',
+                 deployProc: "deploy-${COMPONENT_NAME}",
+                 deployVersions: "${COMPONENT_NAME}:${BUILD_NUMBER}",
+                 deployOnlyChanged: false
+                         ]
+                           ])
+			   }
+	}
+	}
 
     // ... Do some tests on deployed application web UI
 }
