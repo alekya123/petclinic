@@ -26,7 +26,7 @@
 		<tomcat.servlet.version>7.0.30</tomcat.servlet.version>
 		<jaxb-impl.version>2.2.7</jaxb-impl.version>
 
-		<!-- Hibernate / JPA -->
+		<!-- Hibernate the / JPA -->
 		<hibernate.version>4.3.8.Final</hibernate.version>
 
 		<!-- Bean validation -->
